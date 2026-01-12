@@ -18,6 +18,7 @@ A production-ready **ASP.NET Core Web API** built using **Clean Architecture** p
 
 ## 🏗 Architecture
 
+```
 This project follows **Clean Architecture**:
 TMS.API
 │
@@ -42,7 +43,7 @@ TMS.Infrastructure
 │ ├── DbContext
 │ ├── Configurations
 │ ├── Migrations
-
+```
 
 ### Layer Responsibilities
 
@@ -124,6 +125,7 @@ Logging is implemented using **Serilog**, configured via `appsettings.json`.
 ### 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/momin210103/TrainingManagementSystem.API.git
+```
 ## Configure Database
 appsetting.json
 Example 
@@ -137,25 +139,25 @@ Apply Migrations dotnet ef database update
 dotnet run
 
 🗺 Roadmap
-🔜 Phase 2
+### 🔜 Phase 2
 
-Global Query Filter for Soft Delete
+**Global Query Filter for Soft Delete**
 
-Pagination & Filtering
+**Pagination & Filtering**
 
-JWT Authentication & Authorization
+**JWT Authentication & Authorization**
 
-🔜 Phase 3
+##🔜 Phase 3
 
-Training Management Flow
+**Training Management Flow**
 
-Assessment Module
+**Assessment Module**
 
-Unit Testing
+**Unit Testing**
 
-Performance optimizations
+**Performance optimizations**
 
-👨‍💻 Author
+##👨‍💻 Author
 MD. Abdul Momin Sheikh
 ASP.NET Core Backend Developer
 
