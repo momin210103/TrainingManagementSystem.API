@@ -35,6 +35,11 @@ namespace TMS.Infrastructure.Persistence
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TmsDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Department>()
+                .HasQueryFilter(d => d.isActive);
+            modelBuilder.Entity<Employee>()
+                .HasQueryFilter(d => d.isActive);
+
         }
     }
 }

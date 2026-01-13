@@ -129,17 +129,18 @@ git clone https://github.com/momin210103/TrainingManagementSystem.API.git
 ## Configure Database
 appsetting.json
 Example 
-{
+```{
   "ConnectionStrings": {
     "DefaultConnection": "Server=YOUR_SERVER;Database=TMS;User Id=USER;Password=PASSWORD;"
   }
-}
-Apply Migrations dotnet ef database update
+}```
+Apply Migrations `dotnet ef database update`
 ## Run Appllication
-dotnet run
-
-🗺 Roadmap
+`dotnet run`
+```
+### 🗺 Roadmap
 ### 🔜 Phase 2
+
 
 **Global Query Filter for Soft Delete**
 
@@ -147,7 +148,7 @@ dotnet run
 
 **JWT Authentication & Authorization**
 
-##🔜 Phase 3
+###🔜 Phase 3
 
 **Training Management Flow**
 
@@ -157,12 +158,11 @@ dotnet run
 
 **Performance optimizations**
 
-##👨‍💻 Author
+
+###👨‍💻 Author
 MD. Abdul Momin Sheikh
 ASP.NET Core Backend Developer
-
 Focused on clean code & real-world backend systems
-
 Learning-oriented, production-driven development
 
 

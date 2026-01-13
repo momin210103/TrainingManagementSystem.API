@@ -132,7 +132,7 @@ namespace TMS.Application.Employees.Services
         {
             await _updateValidator.ValidateAndThrowAsync(request);
             var employee = await _context.Employees
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.isActive == true);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
             if (employee == null)
                 throw new KeyNotFoundException("Employee Not found");
             bool duplicate = await _context.Employees.AnyAsync(x => x.Id != request.Id && (x.EmployeeCode == request.EmployeeCode || x.Email == request.Email));
