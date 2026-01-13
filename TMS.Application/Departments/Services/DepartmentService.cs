@@ -30,7 +30,7 @@ namespace TMS.Application.Departments.Services
            ValidationResult res = await _createValidator.ValidateAsync(req);
             if (!res.IsValid)
                 throw new ValidationException(res.Errors);
-            bool exists = await _context.Departments.AnyAsync(d => d.Name.ToLower() == req.Name.ToLower() && d.isActive);
+            bool exists = await _context.Departments.AnyAsync(d => d.Name.ToLower() == req.Name.ToLower());
             if (exists)
                 throw new InvalidOperationException("Department already exists");
             var department = new Department
@@ -49,7 +49,7 @@ namespace TMS.Application.Departments.Services
         {
             var dep = await _context.Departments
                 .Include(x => x.Employees)
-                .FirstOrDefaultAsync(x => x.Id == id && x.isActive);
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (dep == null)
                 throw new KeyNotFoundException("Department not found");
             if (dep.Employees.Any(e => e.isActive))
@@ -61,7 +61,7 @@ namespace TMS.Application.Departments.Services
 
         public async Task<List<DepartmentResponse>> GetAllAsync()
         {
-            return await _context.Departments.AsNoTracking().Where(d => d.isActive).OrderBy(d => d.Name).Select(d => new DepartmentResponse { 
+            return await _context.Departments.AsNoTracking().OrderBy(d => d.Name).Select(d => new DepartmentResponse { 
                 Id = d.Id,
                 Name = d.Name
             }).ToListAsync();
@@ -72,7 +72,7 @@ namespace TMS.Application.Departments.Services
         {
             var department = await _context.Departments
                 .AsNoTracking()
-                .Where(x => x.Id == id && x.isActive)
+                .Where(x => x.Id == id)
                 .Select(x => new DepartmentResponse
                 {
                     Id = x.Id,
@@ -89,11 +89,11 @@ namespace TMS.Application.Departments.Services
             ValidationResult res = await _updateValidator.ValidateAsync(req);
             if (!res.IsValid)
                 throw new ValidationException(res.Errors);
-            var dep = await _context.Departments.FirstOrDefaultAsync(x => x.Id == req.Id && x.isActive);
+            var dep = await _context.Departments.FirstOrDefaultAsync(x => x.Id == req.Id);
             if (dep == null)
                 throw new KeyNotFoundException("Department not Found");
             bool duplicate = await _context.Departments
-                .AnyAsync(x => x.Id != req.Id && x.Name == req.Name && x.isActive);
+                .AnyAsync(x => x.Id != req.Id && x.Name == req.Name);
             if (duplicate)
                 throw new InvalidOperationException("Department name already exists");
             dep.Name = req.Name;
