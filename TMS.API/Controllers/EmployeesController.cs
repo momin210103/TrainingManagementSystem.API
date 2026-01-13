@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Models;
 using TMS.Application.Employees.DTOs;
+using TMS.Application.Employees.Filters;
 using TMS.Application.Employees.Interfaces;
 
 namespace TMS.API.Controllers
@@ -37,9 +39,9 @@ namespace TMS.API.Controllers
         }
         // GET: api/employees
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination,[FromQuery] EmployeeFilter filter)
         {
-            var employees = await _employeeService.GetAllAsync();
+            var employees = await _employeeService.GetAllAsync(pagination,filter);
             return Ok(employees);
         }
         [HttpPut("{id}")]

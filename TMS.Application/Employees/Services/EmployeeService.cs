@@ -3,7 +3,9 @@ using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TMS.Application.Common.Interfaces.Persistence;
+using TMS.Application.Common.Models;
 using TMS.Application.Employees.DTOs;
+using TMS.Application.Employees.Filters;
 using TMS.Application.Employees.Interfaces;
 using TMS.Application.Employees.Validators;
 using TMS.Domain.Entities;
@@ -88,11 +90,30 @@ namespace TMS.Application.Employees.Services
 
         
 
-        public async Task<List<EmployeeResponse>> GetAllAsync()
+        public async Task<PaginatedResponse<EmployeeResponse>> GetAllAsync(PaginationRequest pagination,EmployeeFilter filter)
         {
-            return await _context.Employees
-                 .AsNoTracking()
+            IQueryable<Employee> query = _context.Employees.AsNoTracking();
+            // Filter 1
+            if (!string.IsNullOrWhiteSpace(filter.Search))
+            {
+                query = query.Where(e =>
+                e.FullName.Contains(filter.Search) || e.Email.Contains(filter.Search));
+            }
+            // Filter 2
+            if (filter.DepartmentId.HasValue)
+            {
+                query = query.Where(x => x.DepartmentId == filter.DepartmentId);
+            }
+            // Filter 3
+            if (filter.IsActive.HasValue)
+            {
+                query = query.Where(x => x.isActive == filter.IsActive);
+            }
+            var totalCount = await query.CountAsync();
+            var items =  await query
                  .OrderBy(x => x.FullName)
+                 .Skip((pagination.PageNumber -1) * pagination.PageSize)
+                 .Take(pagination.PageSize)
                  .Select(x => new EmployeeResponse
                  {
                      Id = x.Id,
@@ -103,6 +124,13 @@ namespace TMS.Application.Employees.Services
                      JobTitleId = x.JobTitleId
                  })
                  .ToListAsync();
+            return new PaginatedResponse<EmployeeResponse>
+            {
+                Items = items,
+                PageSize = pagination.PageSize,
+                PageNumber = pagination.PageNumber,
+                TotalCount = totalCount
+            };
 
         }
 
