@@ -28,9 +28,9 @@ namespace TMS.API.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination, [FromQuery] DepartmentFilter filter)
+        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination, [FromQuery] DepartmentFilter filter,[FromQuery] SortingRequest sorting)
         {
-            var departments = await _service.GetAllAsync(pagination,filter);
+            var departments = await _service.GetAllAsync(pagination,filter,sorting);
             return Ok(departments);
 
         }

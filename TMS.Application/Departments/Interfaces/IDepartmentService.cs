@@ -6,7 +6,7 @@ namespace TMS.Application.Departments.Interfaces
     public interface IDepartmentService
     {
         Task<Guid> CreateAsync(CreateDepartmentRequest req);
-        Task<PaginatedResponse<DepartmentResponse>> GetAllAsync(PaginationRequest pagination, DepartmentFilter filter);
+        Task<PaginatedResponse<DepartmentResponse>> GetAllAsync(PaginationRequest pagination, DepartmentFilter filter,SortingRequest sort);
         Task<DepartmentResponse> GetByIdAsync(Guid id);
         Task UpdateAsync(UpdateDepartmentRequest req);
         Task DeleteAsync(Guid id);

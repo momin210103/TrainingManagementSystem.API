@@ -90,7 +90,7 @@ namespace TMS.Application.Employees.Services
 
         
 
-        public async Task<PaginatedResponse<EmployeeResponse>> GetAllAsync(PaginationRequest pagination,EmployeeFilter filter)
+        public async Task<PaginatedResponse<EmployeeResponse>> GetAllAsync(PaginationRequest pagination,EmployeeFilter filter,SortingRequest sorting)
         {
             IQueryable<Employee> query = _context.Employees.AsNoTracking();
             // Filter 1
@@ -109,9 +109,11 @@ namespace TMS.Application.Employees.Services
             {
                 query = query.Where(x => x.isActive == filter.IsActive);
             }
+            //Sorting
+            query = ApplySorting(query, sorting);
+            //Pagination
             var totalCount = await query.CountAsync();
             var items =  await query
-                 .OrderBy(x => x.FullName)
                  .Skip((pagination.PageNumber -1) * pagination.PageSize)
                  .Take(pagination.PageSize)
                  .Select(x => new EmployeeResponse
@@ -130,6 +132,25 @@ namespace TMS.Application.Employees.Services
                 PageSize = pagination.PageSize,
                 PageNumber = pagination.PageNumber,
                 TotalCount = totalCount
+            };
+
+        }
+
+        private static IQueryable<Employee> ApplySorting(IQueryable<Employee> query, SortingRequest sorting)
+        {
+            if (string.IsNullOrWhiteSpace(sorting.SortBy))
+                return query.OrderBy(x => x.FullName); //Default
+            bool isDescending = sorting.SortOrder?.ToLower() == "desc";
+            return sorting.SortBy.ToLower() switch
+            {
+                "name" => isDescending
+                ? query.OrderByDescending(x => x.FullName)
+                : query.OrderBy(x => x.FullName),
+                "createdat" => isDescending
+                ? query.OrderByDescending(x => x.CreatedAt)
+                : query.OrderBy(x => x.CreatedAt),
+                _=> query.OrderBy(x => x.FullName)
+
             };
 
         }

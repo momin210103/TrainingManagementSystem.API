@@ -8,7 +8,7 @@ namespace TMS.Application.Employees.Interfaces
     {
         Task<Guid> CreateAsync(CreateEmployeeRequest request);
         Task<EmployeeResponse> GetByIdAsync(Guid id);
-        Task<PaginatedResponse<EmployeeResponse>> GetAllAsync(PaginationRequest pagination, EmployeeFilter filter);
+        Task<PaginatedResponse<EmployeeResponse>> GetAllAsync(PaginationRequest pagination, EmployeeFilter filter,SortingRequest sorting);
         Task UpdateAsync(UpdateEmployeeRequest request);
         Task DeleteAsync(Guid id);
 

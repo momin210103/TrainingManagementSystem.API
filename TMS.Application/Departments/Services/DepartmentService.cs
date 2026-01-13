@@ -60,7 +60,7 @@ namespace TMS.Application.Departments.Services
             _logger.LogInformation("Department soft deleted. Id: {DepartmentId}", id);
         }
 
-        public async Task<PaginatedResponse<DepartmentResponse>> GetAllAsync(PaginationRequest pagination, DepartmentFilter filter)
+        public async Task<PaginatedResponse<DepartmentResponse>> GetAllAsync(PaginationRequest pagination, DepartmentFilter filter,SortingRequest sorting)
         {
             IQueryable<Department> query =  _context.Departments;
             // Filtering Logic 
@@ -69,9 +69,11 @@ namespace TMS.Application.Departments.Services
                 query = query.Where(x => x.Name.Contains(filter.Search));
             }
             int totalCount = await query.CountAsync();
+            // Sorting
+            query = ApplySorting(query, sorting);
 
+            // Pagination
             var items = await query
-                .OrderBy(d => d.Name)
                 .Skip((pagination.PageNumber -1) * pagination.PageSize) 
                 .Take(pagination.PageSize)
                 .Select(d => new DepartmentResponse { 
@@ -87,6 +89,9 @@ namespace TMS.Application.Departments.Services
             };
             
         }
+
+        
+
         public async Task<DepartmentResponse> GetByIdAsync(Guid id)
         {
             var department = await _context.Departments
@@ -121,6 +126,22 @@ namespace TMS.Application.Departments.Services
 
         }
 
-        
+        private static IQueryable<Department> ApplySorting(IQueryable<Department> query, SortingRequest sorting)
+        {
+            if (string.IsNullOrWhiteSpace(sorting.SortBy))
+                return query.OrderBy(x => x.Name);
+            bool isDescending = sorting.SortOrder?.ToLower() == "desc";
+            return sorting.SortBy.ToLower() switch
+            {
+                "name" => isDescending
+                ? query.OrderByDescending(x => x.Name)
+                : query.OrderBy(x => x.Name),
+                "createdat" => isDescending?
+                query.OrderByDescending(x => x.CreatedAt)
+                : query.OrderBy(x => x.CreatedAt),
+                _=> query.OrderBy(x => x.Name) // fallback
+
+            };
+        }
     }
 }

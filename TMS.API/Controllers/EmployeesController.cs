@@ -39,9 +39,9 @@ namespace TMS.API.Controllers
         }
         // GET: api/employees
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination,[FromQuery] EmployeeFilter filter)
+        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination,[FromQuery] EmployeeFilter filter,[FromQuery] SortingRequest sorting)
         {
-            var employees = await _employeeService.GetAllAsync(pagination,filter);
+            var employees = await _employeeService.GetAllAsync(pagination,filter,sorting);
             return Ok(employees);
         }
         [HttpPut("{id}")]
