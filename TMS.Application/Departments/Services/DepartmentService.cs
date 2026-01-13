@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TMS.Application.Common.Interfaces.Persistence;
+using TMS.Application.Common.Models;
 using TMS.Application.Departments.DTOs;
 using TMS.Application.Departments.Interfaces;
 using TMS.Application.Departments.Validators;
@@ -59,15 +60,33 @@ namespace TMS.Application.Departments.Services
             _logger.LogInformation("Department soft deleted. Id: {DepartmentId}", id);
         }
 
-        public async Task<List<DepartmentResponse>> GetAllAsync()
+        public async Task<PaginatedResponse<DepartmentResponse>> GetAllAsync(PaginationRequest pagination, DepartmentFilter filter)
         {
-            return await _context.Departments.AsNoTracking().OrderBy(d => d.Name).Select(d => new DepartmentResponse { 
+            IQueryable<Department> query =  _context.Departments;
+            // Filtering Logic 
+            if (!string.IsNullOrWhiteSpace(filter.Search))
+            {
+                query = query.Where(x => x.Name.Contains(filter.Search));
+            }
+            int totalCount = await query.CountAsync();
+
+            var items = await query
+                .OrderBy(d => d.Name)
+                .Skip((pagination.PageNumber -1) * pagination.PageSize) 
+                .Take(pagination.PageSize)
+                .Select(d => new DepartmentResponse { 
                 Id = d.Id,
                 Name = d.Name
             }).ToListAsync();
+            return new PaginatedResponse<DepartmentResponse>
+            {
+                Items = items,
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize,
+                TotalCount = totalCount
+            };
             
         }
-
         public async Task<DepartmentResponse> GetByIdAsync(Guid id)
         {
             var department = await _context.Departments
@@ -101,5 +120,7 @@ namespace TMS.Application.Departments.Services
             _logger.LogInformation("Department updated. Id : {DepartmentId}", dep.Id);
 
         }
+
+        
     }
 }

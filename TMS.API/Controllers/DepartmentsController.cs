@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Models;
 using TMS.Application.Departments.DTOs;
 using TMS.Application.Departments.Interfaces;
 
@@ -27,9 +28,9 @@ namespace TMS.API.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination, [FromQuery] DepartmentFilter filter)
         {
-            var departments = await _service.GetAllAsync();
+            var departments = await _service.GetAllAsync(pagination,filter);
             return Ok(departments);
 
         }
