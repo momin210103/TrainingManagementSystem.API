@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TMS.Application.Common.Interfaces.Persistence;
+using TMS.Infrastructure.Authentication;
 using TMS.Infrastructure.Persistence;
 
 namespace TMS.Infrastructure
@@ -13,6 +15,10 @@ namespace TMS.Infrastructure
             services.AddDbContext<TmsDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<ITmsDbContext>(provider => provider.GetRequiredService<TmsDbContext>());
+            // Jwt Configuration
+            services.ConfigureOptions<JwtSettingsSetup>();
+            services.ConfigureOptions<JwtBearerOptionsSetup>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
             return services;
         }
     }

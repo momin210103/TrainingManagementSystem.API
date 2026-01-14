@@ -27,8 +27,4 @@
     <ProjectReference Include="..\TMS.Domain\TMS.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>

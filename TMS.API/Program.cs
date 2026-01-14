@@ -1,12 +1,13 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using TMS.API.Extensions;
 using TMS.API.Middlewares;
 using TMS.Application;
 using TMS.Application.Employees.DTOs;
 using TMS.Application.Employees.Validators;
 using TMS.Infrastructure;
 using TMS.Infrastructure.Persistence;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddSwaggerWithJwt();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,6 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 //Middleware

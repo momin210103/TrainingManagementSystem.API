@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using TMS.Application.Auth.Interfaces;
+using TMS.Application.Auth.Services;
 using TMS.Application.Departments.DTOs;
 using TMS.Application.Departments.Interfaces;
 using TMS.Application.Departments.Services;
@@ -17,11 +19,13 @@ namespace TMS.Application
         {
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
-           
+            services.AddScoped<IAuthService, AuthService>();
+
             services.AddScoped<IValidator<CreateEmployeeRequest>, CreateEmployeeRequestValidator>();
             services.AddScoped<IValidator<UpdateEmployeeRequest>, UpdateEmployeeRequestValidator>();
             services.AddScoped<IValidator<CreateDepartmentRequest>, CreateDepartmentRequestValidator>();
             services.AddScoped<IValidator<UpdateDepartmentRequest>, UpdateDepartmentRequestValidator>();
+            
             return services;
         }
     }
