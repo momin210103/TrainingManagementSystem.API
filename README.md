@@ -135,11 +135,11 @@ Example
   "ConnectionStrings": {
     "DefaultConnection": "Server=YOUR_SERVER;Database=TMS;User Id=USER;Password=PASSWORD;"
   }
-}```
-Apply Migrations `dotnet ef database update`
-## Run Appllication
-`dotnet run`
+}
 ```
+## Apply Migrations `dotnet ef database update`
+## Run Appllication `dotnet run`
+
 ### 🗺 Roadmap
 ### 🔜 Phase 2
 
@@ -161,9 +161,10 @@ Apply Migrations `dotnet ef database update`
 **Performance optimizations**
 # Author
 MD. Abdul Momin Sheikh
-ASP.NET Core Backend Developer
-Focused on clean code & real-world backend systems
-Learning-oriented, production-driven development
+___
+### ASP.NET Core Backend Developer
+### Focused on clean code & real-world backend systems
+### Learning-oriented, production-driven development
 
 
 
