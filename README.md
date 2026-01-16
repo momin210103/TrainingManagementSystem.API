@@ -162,9 +162,9 @@ Example
 # Author
 ## MD. Abdul Momin Sheikh
 ___
-##### ==ASP.NET Core Backend Developer==
-##### ==Focused on clean code & real-world backend systems==
-##### ==Learning-oriented, production-driven development==
+>ASP.NET Core Backend Developer==
+>Focused on clean code & real-world backend systems
+>earning-oriented, production-driven development==
 
 
 
