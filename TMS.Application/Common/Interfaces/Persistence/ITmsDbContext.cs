@@ -8,6 +8,8 @@ namespace TMS.Application.Common.Interfaces.Persistence
          DbSet<Employee> Employees { get; }
          DbSet<Department> Departments { get; }
          DbSet<JobTitle> JobTitles { get; }
+         DbSet<CourseCategory> CourseCategories { get; }
+         DbSet<Course> Courses { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
