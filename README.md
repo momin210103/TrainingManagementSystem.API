@@ -44,7 +44,6 @@ TMS.Infrastructure
 │ ├── Configurations
 │ ├── Migrations
 ```
-
 ### Layer Responsibilities
 
 - **API Layer**
@@ -89,6 +88,8 @@ TMS.Infrastructure
 - Swagger API documentation
 
 ---
+## Database
+![Database Scheme](TMSDatabase.jpg)
 
 ## 🧪 API Documentation
 
@@ -129,7 +130,8 @@ git clone https://github.com/momin210103/TrainingManagementSystem.API.git
 ## Configure Database
 appsetting.json
 Example 
-```{
+```bash
+{
   "ConnectionStrings": {
     "DefaultConnection": "Server=YOUR_SERVER;Database=TMS;User Id=USER;Password=PASSWORD;"
   }
@@ -148,7 +150,7 @@ Apply Migrations `dotnet ef database update`
 
 **JWT Authentication & Authorization**
 
-###🔜 Phase 3
+# Phase 3 
 
 **Training Management Flow**
 
@@ -157,9 +159,7 @@ Apply Migrations `dotnet ef database update`
 **Unit Testing**
 
 **Performance optimizations**
-
-
-###👨‍💻 Author
+# Author
 MD. Abdul Momin Sheikh
 ASP.NET Core Backend Developer
 Focused on clean code & real-world backend systems
