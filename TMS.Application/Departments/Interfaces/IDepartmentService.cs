@@ -10,6 +10,7 @@ namespace TMS.Application.Departments.Interfaces
         Task<DepartmentResponse> GetByIdAsync(Guid id);
         Task UpdateAsync(UpdateDepartmentRequest req);
         Task DeleteAsync(Guid id);
+        Task<DepartmentEmployeeResponse> GetEmployeesByDepartmentNameAsync(string departmentName);
 
     }
 }

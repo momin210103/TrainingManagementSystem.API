@@ -7,7 +7,7 @@ using TMS.Application.Departments.Interfaces;
 
 namespace TMS.API.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentsController: ControllerBase
@@ -61,6 +61,12 @@ namespace TMS.API.Controllers
             message = "Department deleted successfully",
             id
             });
+        }
+        [HttpGet("{departmentName}/employees")]
+        public async Task<IActionResult> GetEmployees(string departmentName)
+        {
+            var res = await _service.GetEmployeesByDepartmentNameAsync(departmentName);
+            return Ok(res);
         }
     }
 }

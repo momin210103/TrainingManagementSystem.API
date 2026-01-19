@@ -22,7 +22,7 @@ namespace TMS.API.Controllers
 
         public async Task<IActionResult> Create([FromBody] CreateEmployeeRequest request)
         {
-          var id = await _employeeService.CreateAsync(request);
+            var id = await _employeeService.CreateAsync(request);
             var res = new CreateEmployeeResponse
             {
                 Id = id,
@@ -39,9 +39,9 @@ namespace TMS.API.Controllers
         }
         // GET: api/employees
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination,[FromQuery] EmployeeFilter filter,[FromQuery] SortingRequest sorting)
+        public async Task<IActionResult> GetAll([FromQuery] PaginationRequest pagination, [FromQuery] EmployeeFilter filter, [FromQuery] SortingRequest sorting)
         {
-            var employees = await _employeeService.GetAllAsync(pagination,filter,sorting);
+            var employees = await _employeeService.GetAllAsync(pagination, filter, sorting);
             return Ok(employees);
         }
         [HttpPut("{id}")]
@@ -62,10 +62,11 @@ namespace TMS.API.Controllers
             await _employeeService.DeleteAsync(id);
             return Ok(new
             {
-                message ="Employee Deleted successfully",
+                message = "Employee Deleted successfully",
                 id
             });
         }
+        
 
     }
 }

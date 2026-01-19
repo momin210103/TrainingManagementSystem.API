@@ -10,6 +10,11 @@ namespace TMS.Application.Common.Interfaces.Persistence
          DbSet<JobTitle> JobTitles { get; }
          DbSet<CourseCategory> CourseCategories { get; }
          DbSet<Course> Courses { get; }
+         DbSet<Enrollment> Enrollments { get; }
+         DbSet<TrainingCategory> TrainingCategories { get; }
+         DbSet<TrainingPlan> TrainingPlans { get; }
+        DbSet<TrainingClass> TrainingClasses { get; }
+        DbSet<TrainingClassSchedule> TrainingClassSchedules { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

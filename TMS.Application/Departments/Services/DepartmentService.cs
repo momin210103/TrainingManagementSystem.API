@@ -143,5 +143,31 @@ namespace TMS.Application.Departments.Services
 
             };
         }
+
+        public async Task<DepartmentEmployeeResponse> GetEmployeesByDepartmentNameAsync(string departmentName)
+        {
+            var employees = await _context.Employees
+                .AsNoTracking()
+                .Where(x => x.Department.Name == departmentName)
+                .Select(x => new EmployeeItemDTO
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    Email = x.Email,
+                    JobTitle = x.JobTitle.Name
+
+                })
+                .ToListAsync();
+            if (!employees.Any())
+                throw new InvalidOperationException("Department Not found or no Emlployees");
+            _logger.LogInformation("Get Sucessfully");
+            return new DepartmentEmployeeResponse
+            {
+                DepartmentName = departmentName,
+                TotalEmployees = employees.Count,
+                Employees = employees
+            };
+
+        }
     }
 }

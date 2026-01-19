@@ -19,6 +19,8 @@ namespace TMS.Infrastructure.Persistence.Configurations
             builder.Property(c => c.CourseCode)
                 .IsRequired()
                 .HasMaxLength(50);
+            builder.HasIndex(x => x.CourseCode)
+                .IsUnique();
             builder.Property(c => c.Description)
                 .HasMaxLength(1000);
             builder.Property(c => c.DurationHours)

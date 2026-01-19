@@ -8,6 +8,7 @@ using TMS.Application.Employees.DTOs;
 using TMS.Application.Employees.Validators;
 using TMS.Infrastructure;
 using TMS.Infrastructure.Persistence;
+using TMS.Infrastructure.Persistence.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,16 +24,23 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSeeders();
 
 builder.Services.AddSwaggerWithJwt();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+// Initialize and seed database
+using (var scope = app.Services.CreateScope()) {
+    var seeder = scope.ServiceProvider.GetRequiredService<MasterSeeder>();
+    await seeder.SeedAllAsync();
 }
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
 app.UseHttpsRedirection();
 

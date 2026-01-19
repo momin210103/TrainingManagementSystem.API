@@ -41,7 +41,14 @@ namespace TMS.Infrastructure.Persistence
                 .HasQueryFilter(d => d.isActive);
             modelBuilder.Entity<CourseCategory>()
                 .HasQueryFilter(x => x.isActive);
-
+            modelBuilder.Entity<Course>()
+                .HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<Role>();
+            modelBuilder.Entity<Enrollment>()
+                .HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<TrainingCategory>()
+                .HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<TrainingPlan>().HasQueryFilter(x => x.isActive);
         }
     }
 }

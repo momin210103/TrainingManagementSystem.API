@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Courses\Filters\" />
+    <Folder Include="Enrollments\Filters\" />
     <Folder Include="Trainings\" />
     <Folder Include="Tests\" />
   </ItemGroup>
