@@ -39,10 +39,14 @@ using (var scope = app.Services.CreateScope()) {
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json","TMS.API Open");
+            options.RoutePrefix = string.Empty;
+        });
     }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
