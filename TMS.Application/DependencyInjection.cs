@@ -34,6 +34,10 @@ using TMS.Application.TrainingClasses.DTOs;
 using TMS.Application.TrainingClasses.Interfaces;
 using TMS.Application.TrainingClasses.Services;
 using TMS.Application.TrainingClasses.Validators;
+using TMS.Application.TrainingPlans.DTOs;
+using TMS.Application.TrainingPlans.Interfaces;
+using TMS.Application.TrainingPlans.Services;
+using TMS.Application.TrainingPlans.Validators;
 
 namespace TMS.Application
 {
@@ -50,6 +54,7 @@ namespace TMS.Application
             services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<ITrainingClassService, TrainingClassService>();
             services.AddScoped<ITrainingCategoryService, TrainingCategoryService>();
+            services.AddScoped<ITrainingPlanService, TrainingPlanService>();
 
             services.AddScoped<IValidator<CreateEmployeeRequest>, CreateEmployeeRequestValidator>();
             services.AddScoped<IValidator<UpdateEmployeeRequest>, UpdateEmployeeRequestValidator>();
@@ -64,6 +69,8 @@ namespace TMS.Application
             services.AddScoped<IValidator<CreateEnrollmentRequest>, CreateEnrollmentRequestValidator>();
             services.AddScoped<IValidator<CreateTrainingCategoryRequest>, CreateTrainingCategoryRequestValidator>();
             services.AddScoped<IValidator<UpdateTrainingCategoryRequest>, UpdateTrainingCategoryRequestValidator>();
+            services.AddScoped<IValidator<CreateTrainingPlanRequest>, CreateTrainingPlanRequestValidator>();
+            services.AddScoped<IValidator<UpdateTrainingPlanRequest>, UpdateTrainingPlanRequestValidator>();
             
             services.AddScoped<IValidator<CreateTrainingClassRequest>, CreateTrainingClassRequestValidator>();
             services.AddScoped<IValidator<UpdateTrainingClassRequest>, UpdateTrainingClassRequestValidator>();
