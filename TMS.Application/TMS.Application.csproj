@@ -24,4 +24,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
   </ItemGroup>
 
+  <ItemGroup>
+  <CompilerVisibleProperty Include="RootNamespace" />
+  <CompilerVisibleProperty Include="ProjectDir" />
+</ItemGroup>
+
 </Project>

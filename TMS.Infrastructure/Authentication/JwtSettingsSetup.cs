@@ -15,7 +15,7 @@ namespace TMS.Infrastructure.Authentication
 
         public void Configure(JwtSettings options)
         {
-            _configuration.GetSection("Jwt").Bind(options);
+            _configuration.GetSection("JwtSettings").Bind(options);
         }
     }
 }

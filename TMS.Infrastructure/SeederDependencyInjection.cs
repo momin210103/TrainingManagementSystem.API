@@ -9,10 +9,8 @@ namespace TMS.Infrastructure
         public static IServiceCollection AddSeeders(this IServiceCollection services)
         {
             services.AddScoped<IDataSeeder, TrainingCategorySeeder>();
-          services.AddScoped<IDataSeeder,TrainingPlanSeeder>();
+            services.AddScoped<IDataSeeder,TrainingPlanSeeder>();
             services.AddScoped<IDataSeeder,TrainingClassSeeder>();
-
-
 
             services.AddScoped<MasterSeeder>();
             return services;

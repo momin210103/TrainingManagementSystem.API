@@ -27,6 +27,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSeeders();
 
 builder.Services.AddSwaggerWithJwt();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSwagger",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Initialize and seed database
@@ -47,6 +58,7 @@ using (var scope = app.Services.CreateScope()) {
     }
 
 // app.UseHttpsRedirection();
+app.UseCors("AllowSwagger");
 
 app.UseAuthentication();
 app.UseAuthorization();

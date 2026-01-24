@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Interfaces.Persistence;
 using TMS.Domain.Entities;
 
@@ -14,17 +13,17 @@ namespace TMS.Infrastructure.Persistence.Data.Seed
         }
         public async Task SeedAsync()
         {
-            if( _context.TrainingClasses.Any())
+            if( await _context.TrainingClasses.AnyAsync())
             {
                 return;
             }
             // Load parent first (FK safe)
-            var course = await _context.Courses.FirstAsync(x => x.CourseCode == "CSE-4101");
-            var plan = await _context.TrainingPlans.FirstAsync(x =>x.PlanCode == "TP001");
+            var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseCode == "CSE-4101");
+            var plan = await _context.TrainingPlans.FirstOrDefaultAsync(x =>x.PlanCode == "TP001");
             if (course == null)
-                throw new KeyNotFoundException("Required course is Not Found");
+                return;
             if(plan == null)
-                throw new KeyNotFoundException("Required training plan is Not Found");
+                return;
             var trainingClasses = new List<TrainingClass>
             {
                 new TrainingClass{
@@ -34,8 +33,6 @@ namespace TMS.Infrastructure.Persistence.Data.Seed
                     TrainingPlanId = plan.Id,                
                     StartDate = DateTime.UtcNow.AddMonths(1),
                     EndDate = DateTime.UtcNow.AddMonths(2),
-                    
-                    
                     Capacity = 25,
                     Status = "Scheduled",
                     CreatedAt = DateTime.UtcNow,
@@ -46,12 +43,9 @@ namespace TMS.Infrastructure.Persistence.Data.Seed
                     Name = "Class-2",
                     CourseId = course.Id,
                     TrainingPlanId = plan.Id,
-                    
                     StartDate = DateTime.UtcNow.AddMonths(2),
                     EndDate = DateTime.UtcNow.AddMonths(3),
-                    
                     Capacity = 25,
-                    
                     CreatedAt = DateTime.UtcNow,
                     isActive = true
                 },
