@@ -51,6 +51,7 @@ namespace TMS.Infrastructure.Persistence
             modelBuilder.Entity<TrainingPlan>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<TrainingClass>()
                 .HasQueryFilter(x => x.isActive);
+                
         }
     }
 }
