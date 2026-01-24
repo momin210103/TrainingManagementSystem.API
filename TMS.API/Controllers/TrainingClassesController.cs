@@ -24,5 +24,29 @@ namespace TMS.API.Controllers
             };
             return Ok(res);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTrainingClassById(Guid id)
+        {
+            var trainingClass = await _services.GetByIdAsync(id);
+            return Ok(trainingClass);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllTrainingClasses()
+        {
+            var trainingClasses = await _services.GetAllAsync();
+            return Ok(trainingClasses);
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateTrainingClassRequest request)
+        {
+            await _services.UpdateAsync(request);
+            return Ok(new { Message = "Training Class Updated Successfully" });
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _services.DeleteAsync(id);
+            return Ok(new { Message = "Training Class Deleted Successfully" });
+        }
     }
 }

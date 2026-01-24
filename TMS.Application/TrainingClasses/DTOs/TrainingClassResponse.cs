@@ -3,6 +3,8 @@ namespace TMS.Application.TrainingClasses.DTOs
     public class TrainingClassResponse
     {
         public Guid Id { get; set; }
+        public Guid CourseId { get; set; }
+        public Guid TrainingPlanId { get; set; }
         
         public string Name { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
