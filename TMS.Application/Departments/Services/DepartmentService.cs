@@ -1,5 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Globalization;
+using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TMS.Application.Common.Interfaces.Persistence;
@@ -148,13 +150,13 @@ namespace TMS.Application.Departments.Services
         {
             var employees = await _context.Employees
                 .AsNoTracking()
-                .Where(x => x.Department.Name == departmentName)
+                .Where(x => x.Department != null && x.Department.Name == departmentName)
                 .Select(x => new EmployeeItemDTO
                 {
                     Id = x.Id,
                     FullName = x.FullName,
                     Email = x.Email,
-                    JobTitle = x.JobTitle.Name
+                    JobTitle = x.JobTitle != null ? x.JobTitle.Name : string.Empty
 
                 })
                 .ToListAsync();
@@ -169,5 +171,6 @@ namespace TMS.Application.Departments.Services
             };
 
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using TMS.Application.Common.Models;
+﻿using Microsoft.AspNetCore.Http;
+using TMS.Application.Common.Models;
 using TMS.Application.Departments.DTOs;
 
 namespace TMS.Application.Departments.Interfaces
@@ -11,6 +12,7 @@ namespace TMS.Application.Departments.Interfaces
         Task UpdateAsync(UpdateDepartmentRequest req);
         Task DeleteAsync(Guid id);
         Task<DepartmentEmployeeResponse> GetEmployeesByDepartmentNameAsync(string departmentName);
+        
 
     }
 }
