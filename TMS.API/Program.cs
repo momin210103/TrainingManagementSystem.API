@@ -68,4 +68,6 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
+app.MapGet("/", () => "Welcome to TMS API!");
+
 app.Run();
