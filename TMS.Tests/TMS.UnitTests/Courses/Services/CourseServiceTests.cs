@@ -59,5 +59,46 @@ public class CourseServiceTests
         await action.Should()
             .ThrowAsync<ValidationException>();
     }
+
+    [Fact]
+    public async Task CreateAsync_WhenCategoryDoesntExist_ShouldThrowCategoryNotFoundException()
+    {
+        TmsDbContext context = DbContextHelper.CreateInMemoryDbContext();
+        var createValidatorMock = new Mock<IValidator<CreateCourseRequest>>();
+        var updateValidatorMock = new Mock<IValidator<UpdateCourseRequest>>();
+        var loggerMock = new Mock<ILogger<CourseService>>();
+        // Validation should pass
+        createValidatorMock
+            .Setup(v => v.ValidateAsync(
+                It.IsAny<CreateCourseRequest>(),
+                default))
+            .ReturnsAsync(new ValidationResult());
+
+        var service = new CourseService(
+            context,
+            createValidatorMock.Object,
+            updateValidatorMock.Object,
+            loggerMock.Object);
+
+        var request = new CreateCourseRequest
+        {
+            CourseCategoryId = Guid.NewGuid(),
+            CourseCode = "CSE101",
+            Title = "ASP.NET Core",
+            Description = "Backend Development",
+            DurationHours = 40
+        };
+
+        // Act
+
+        Func<Task> action = async () =>
+            await service.CreateAsync(request);
+
+        // Assert
+
+        await action.Should()
+            .ThrowAsync<KeyNotFoundException>()
+            .WithMessage("Course Category not found.");
+    }
     
 }
