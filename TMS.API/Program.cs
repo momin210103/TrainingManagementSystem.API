@@ -41,25 +41,31 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Initialize and seed database
-using (var scope = app.Services.CreateScope()) {
-    var seeder = scope.ServiceProvider.GetRequiredService<MasterSeeder>();
-    await seeder.SeedAllAsync();
-}
+// using (var scope = app.Services.CreateScope()) {
+//     var seeder = scope.ServiceProvider.GetRequiredService<MasterSeeder>();
+//     await seeder.SeedAllAsync();
+// }
 
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json","TMS.API Open");
-            options.RoutePrefix = string.Empty;
-        });
-    }
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json","TMS.API Open");
+    options.RoutePrefix = string.Empty;
+});
+
+    // // Configure the HTTP request pipeline.
+    // if (app.Environment.IsDevelopment())
+    // {
+    //     app.UseSwagger();
+    //     app.UseSwaggerUI(options =>
+    //     {
+    //         options.SwaggerEndpoint("/swagger/v1/swagger.json","TMS.API Open");
+    //         options.RoutePrefix = string.Empty;
+    //     });
+    // }
 
 // app.UseHttpsRedirection();
 app.UseCors("AllowSwagger");
-
 app.UseAuthentication();
 app.UseAuthorization();
 
