@@ -13,46 +13,43 @@ namespace TMS.UnitTests.Courses.Services;
 
 public class CourseServiceTests
 {
+    private readonly TmsDbContext _context;
+    private readonly Mock<IValidator<CreateCourseRequest>> _createValidatorMock;
+    private readonly Mock<IValidator<UpdateCourseRequest>> _updateValidatorMock;
+    private readonly Mock<ILogger<CourseService>> _loggerMock;
+    private readonly CourseService _service;
+
+    public CourseServiceTests()
+    {
+        _context = DbContextHelper.CreateInMemoryDbContext();
+        _createValidatorMock = new Mock<IValidator<CreateCourseRequest>>();
+        _updateValidatorMock = new Mock<IValidator<UpdateCourseRequest>>();
+        _loggerMock = new Mock<ILogger<CourseService>>();
+        _service = new CourseService(_context, _createValidatorMock.Object, _updateValidatorMock.Object, _loggerMock.Object);
+
+    }
     [Fact]
     public async Task CreateAsync_WhenValidationFails_ShouldThrowValidationException()
     {
         // Arrange
-
-        TmsDbContext context =
-            DbContextHelper.CreateInMemoryDbContext();
-
-        var createValidatorMock =
-            new Mock<IValidator<CreateCourseRequest>>();
-
-        var updateValidatorMock =
-            new Mock<IValidator<UpdateCourseRequest>>();
-
-        var loggerMock =
-            new Mock<ILogger<CourseService>>();
-
         var failures = new List<ValidationFailure>
         {
             new ValidationFailure("Title", "Title is required")
         };
 
-        createValidatorMock
+        _createValidatorMock
             .Setup(v => v.ValidateAsync(
                 It.IsAny<CreateCourseRequest>(),
                 default))
             .ReturnsAsync(new ValidationResult(failures));
-
-        var service = new CourseService(
-            context,
-            createValidatorMock.Object,
-            updateValidatorMock.Object,
-            loggerMock.Object);
+        
 
         var request = new CreateCourseRequest();
 
         // Act
 
         Func<Task> action = async () =>
-            await service.CreateAsync(request);
+            await _service.CreateAsync(request);
 
         // Assert
 
@@ -63,22 +60,13 @@ public class CourseServiceTests
     [Fact]
     public async Task CreateAsync_WhenCategoryDoesntExist_ShouldThrowCategoryNotFoundException()
     {
-        TmsDbContext context = DbContextHelper.CreateInMemoryDbContext();
-        var createValidatorMock = new Mock<IValidator<CreateCourseRequest>>();
-        var updateValidatorMock = new Mock<IValidator<UpdateCourseRequest>>();
-        var loggerMock = new Mock<ILogger<CourseService>>();
+
         // Validation should pass
-        createValidatorMock
+        _createValidatorMock
             .Setup(v => v.ValidateAsync(
                 It.IsAny<CreateCourseRequest>(),
                 default))
             .ReturnsAsync(new ValidationResult());
-
-        var service = new CourseService(
-            context,
-            createValidatorMock.Object,
-            updateValidatorMock.Object,
-            loggerMock.Object);
 
         var request = new CreateCourseRequest
         {
@@ -92,7 +80,7 @@ public class CourseServiceTests
         // Act
 
         Func<Task> action = async () =>
-            await service.CreateAsync(request);
+            await _service.CreateAsync(request);
 
         // Assert
 
